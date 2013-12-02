@@ -1,0 +1,82 @@
+#
+# Copyright (c) 2012 Shotgun Software, Inc
+# ----------------------------------------------------
+#
+# Metadata defining the behaviour and requirements for this engine
+
+# expected fields in the configuration file for this engine
+configuration:
+
+    hook_pre_submit: 
+        type: hook
+        parameters: []
+        default_value: "pre_submit_{engine_name}"
+        description: Specify a hook to scan for items to publish.  
+                     The hook should return a list dictionaries that represent the items
+                     to be published.
+
+    hook_post_submit:
+        type: hook
+        parameters: []
+        default_value: "post_submit_{engine_name}"
+
+    outputs:
+        type: list
+        values:
+            type: dict
+            items:
+                
+                name:
+                    type: str
+                    description: Identifying name of this output.  This is provided to the
+                                 pre-publish and publish hooks to allow them to determine
+                                 what they should publish for task.
+                display_name:
+                    type: str
+                    description: The name this output will be given in the UI
+                display_group:
+                    type: str
+                    description: The group that this output should appear in within the UI
+                description:
+                    type: str
+                    description: Description of this output used in the UI
+                icon:
+                    type: config_path
+                    description: Icon used for this output in the UI
+                selected:
+                    type: bool
+                    description: Initial state for outputs of this type in the UI
+                required:
+                    type: bool
+                    description: Specify if this output is required for the publish or not.
+                                 If an output is required then it will not be deselectable in
+                                 the UI.
+                tank_type:
+                    type: tank_type
+                    description: The type that will be used when registering any published
+                                 files for this output with Shotgun.  
+                                 If set to '' then this must be determined within the publish hook.
+
+        decription: Specify all other outputs that are supported.
+                    All non-primary items returned from the scan scene hook must match
+                    up with one of these secondary types
+                    
+        allows_empty: True
+        default_value: []
+
+# the Shotgun fields that this engine needs in order to operate correctly
+requires_shotgun_fields:
+        
+        
+# this app works in all engines - it does not contain 
+# any host application specific commands
+supported_engines: [tk-nuke, tk-maya]
+
+# Required minimum versions for this item to run
+requires_shotgun_version:
+requires_core_version: "v0.12.6"
+requires_engine_version:
+
+# the frameworks required to run this app
+frameworks:
+            
