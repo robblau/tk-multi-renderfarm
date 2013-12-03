@@ -2,11 +2,12 @@
 
 # Form implementation generated from reading ui file 'output_item.ui'
 #
-#      by: pyside-uic 0.2.13 running on PySide 1.1.0
+# Created: Tue Dec 03 12:22:53 2013
+#      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
-from tank.platform.qt import QtCore, QtGui
+from PySide import QtCore, QtGui
 
 class Ui_OutputItem(object):
     def setupUi(self, OutputItem):
@@ -52,4 +53,4 @@ class Ui_OutputItem(object):
         OutputItem.setWindowTitle(QtGui.QApplication.translate("OutputItem", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.details_label.setText(QtGui.QApplication.translate("OutputItem", "<b>Output Name</b><br>Description...<br>the third line...", None, QtGui.QApplication.UnicodeUTF8))
 
-from . import resources_rc
+import resources_rc

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="res">
-    <file>tank_logo.png</file>
+    <file>failure.png</file>
+    <file>success.png</file>
   </qresource>
 </RCC>

@@ -14,10 +14,18 @@ import sgtk
 from tank.platform.qt import QtCore, QtGui
 from tank import TankError
 from .ui.dialog import Ui_Dialog
+from ui.results import Ui_PublishResultForm
 from .output_item import OutputItem
 from .output import PublishOutput
 
 class AppDialog(QtGui.QWidget):
+    '''
+    Extra Attributes supported:
+        - int
+        - string
+        - bool
+    
+    '''
 
     
     def __init__(self, app):
@@ -44,16 +52,20 @@ class AppDialog(QtGui.QWidget):
     def create_connections(self):
         
         self.ui.submit_btn.released.connect(self.submit_btn_released)
-        self.ui.cancel_btn.released.connect(self.cancel_btn_released)
+        self.ui.cancel_btn.released.connect(self.close_released)
+        
+        self.ui.success_close_btn.released.connect(self.close_released)
+        
+        self.ui.failure_close_btn.released.connect(self.close_released)
     
-    def cancel_btn_released(self):
+    def close_released(self):
         
         self.close()
     
     def submit_btn_released(self):
-        
+    
         #collecting output data            
-        outputs=[]
+        self.data_outputs=[]
         
         for item in self.ui.contents.children():
             
@@ -71,23 +83,64 @@ class AppDialog(QtGui.QWidget):
                     data['priority']=self.ui.priority_spinBox.value()
                     data['start']=self.ui.start_spinBox.value()
                     data['end']=self.ui.end_spinBox.value()
-                    data['limit']=self.ui.limit_lineEdit.text()
                     data['work_file']=self.work_file
                     
-                    outputs.append(data)
+                    for item in self.additionalInfo:
+                        
+                        widget=item['widget']
+                        if isinstance(widget,QtGui.QLineEdit):
+                            
+                            data[item['type']]=widget.text()
+                            
+                        elif isinstance(widget,QtGui.QCheckBox):
+                            
+                            data[item['type']]=widget.isChecked()
+                        
+                        elif isinstance(widget,QtGui.QSpinBox):
+                            
+                            data[item['type']]=widget.value()
+                    
+                    self.data_outputs.append(data)
         
-        #executing hook
-        if len(outputs)!=0:
-            self._app.execute_hook("hook_post_submit",app=self._app,outputs=outputs)
+        #is anything selected?
+        if len(self.data_outputs)!=0:
             
-            self.close()
+            #showing progress page
+            self.ui.central_stackedWidget.setCurrentWidget(self.ui.progress_page)
+            
+            #execute hook
+            QtCore.QTimer.singleShot(1,self.execute_post_hook)
+            
         else:
             QtGui.QMessageBox.information(None, "Unable To Render!", "No items were selected to submit!")
+            
+    def execute_post_hook(self):
+        
+        #execute hook
+        errors=self._app.execute_hook("hook_post_submit",app=self._app,outputs=self.data_outputs,
+                                      widget=self.ui)
+        
+        #success or failure?
+        if len(errors)==0:
+        
+            self.ui.central_stackedWidget.setCurrentWidget(self.ui.success_page)
+        
+        else:
+            
+            self.ui.central_stackedWidget.setCurrentWidget(self.ui.failure_page)
+            
+            #generate errors report
+            report=''
+            for output in errors:
+                for error in output['errors']:
+                    report+=error+'\n'
+            
+            self.ui.failure_details.setText(report)
 
     def show_render_dlg(self):
         
         # set up the UI
-        self.ui = Ui_Dialog() 
+        self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         
         #setting start information
@@ -95,7 +148,56 @@ class AppDialog(QtGui.QWidget):
         self.ui.priority_spinBox.setValue(self.priority)
         self.ui.start_spinBox.setValue(self.start)
         self.ui.end_spinBox.setValue(self.end)
-        self.ui.limit_lineEdit.setText(self.limit)
+        
+        #making sure submit page is showing
+        self.ui.central_stackedWidget.setCurrentWidget(self.ui.submit_page)
+        
+        #generate ui for extra attributes
+        groupLayout=self.ui.additionalInfo_groupBox.layout()
+        
+        #removing additionalInfo label
+        if len(self.additionalInfo)!=0:
+            groupLayout.removeWidget(self.ui.additionalInfo_label)
+            self.ui.additionalInfo_label.setParent(None)
+        
+        #populate additional info ui
+        for item in self.additionalInfo:
+            
+            additionalItem=QtGui.QWidget()
+            layout=QtGui.QHBoxLayout(additionalItem)
+            layout.setContentsMargins(0, 0, 0, 0)
+            
+            label=QtGui.QLabel(item['type']+':')
+            layout.addWidget(label)
+            
+            widget=None
+            if isinstance(item['value'],str):
+                
+                widget=QtGui.QLineEdit(item['value'])
+                
+                layout.addWidget(widget)
+            
+            elif isinstance(item['value'],bool):
+                
+                widget=QtGui.QCheckBox()
+                
+                layout.addWidget(widget)
+                
+                widget.setChecked(item['value'])
+            
+            elif isinstance(item['value'],int):
+                
+                widget=QtGui.QSpinBox()
+                
+                layout.addWidget(widget)
+                
+                widget.setValue(item['value'])
+            
+            layout.addStretch(1)
+            
+            item['widget']=widget
+            
+            groupLayout.addWidget(additionalItem)
     
     def _populate_output_list(self):
         """
@@ -132,22 +234,22 @@ class AppDialog(QtGui.QWidget):
         self.start=0
         self.end=0
         self.priority=50
-        self.limit='default'
         self.work_file=None
         
+        self.additionalInfo=[]
         for item in self._app.execute_hook("hook_pre_submit"):
             
             if item['type']=='start':
                 self.start=item['value']
             
-            if item['type']=='end':
+            elif item['type']=='end':
                 self.end=item['value']
             
-            if item['type']=='jobname':
+            elif item['type']=='jobname':
                 self.jobname=item['value']
             
-            if item['type']=='limit':
-                self.limit=item['value']
-            
-            if item['type']=='work_file':
+            elif item['type']=='work_file':
                 self.work_file=item['value']
+            
+            else:
+                self.additionalInfo.append(item)
