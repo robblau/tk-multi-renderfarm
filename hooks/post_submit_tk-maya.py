@@ -1,15 +1,3 @@
-# Copyright (c) 2013 Shotgun Software Inc.
-# 
-# CONFIDENTIAL AND PROPRIETARY
-# 
-# This work is provided "AS IS" and subject to the Shotgun Pipeline Toolkit 
-# Source Code License included in this distribution package. See LICENSE.
-# By accessing, using, copying or modifying this work you indicate your 
-# agreement to the Shotgun Pipeline Toolkit Source Code License. All rights 
-# not expressly granted therein are reserved by Shotgun Software Inc.
-
-import os
-
 import maya.cmds as cmds
 
 import tank
@@ -53,15 +41,37 @@ class PostSubmitHook(Hook):
         
         '''
         
-        print 'Post Render Hook!'
         self.app=app
         self.outputs=outputs
         
-        print 'app:'
-        print self.app
-        #print self.app.sgtk.templates["maya_shot_work"]
+        results=[]
         
-        print 'outputs:'
         for output in self.outputs:
             
-            print output
+            errors = []
+            
+            if output['output']['name'] == "maya_render":
+                
+                try:
+                    self.maya_render(output)
+                except Exception, e:
+                    errors.append("Submit failed - %s" % e)
+                
+            # if there is anything to report then add to result
+            if len(errors) > 0:
+                # add result:
+                results.append({"output":output, "errors":errors})
+        
+        return results
+    
+    def maya_render(self,output):
+        '''
+        
+        Method for submitting to the render farm.
+        
+        '''
+            
+            
+            
+            
+            
