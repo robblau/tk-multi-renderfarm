@@ -14,7 +14,6 @@ import sgtk
 from tank.platform.qt import QtCore, QtGui
 from tank import TankError
 from .ui.dialog import Ui_Dialog
-from ui.results import Ui_PublishResultForm
 from .output_item import OutputItem
 from .output import PublishOutput
 

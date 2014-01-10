@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Tue Dec 03 12:22:53 2013
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide import QtCore, QtGui
+from tank.platform.qt import QtCore, QtGui
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -367,4 +366,4 @@ class Ui_Dialog(object):
         self.failure_details.setText(QtGui.QApplication.translate("Dialog", "Details...", None, QtGui.QApplication.UnicodeUTF8))
         self.failure_close_btn.setText(QtGui.QApplication.translate("Dialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
 
-import resources_rc
+from . import resources_rc

@@ -17,7 +17,7 @@ class AboutTank(Application):
         Called as the application is being initialized
         """
         # import using special tank import mechanism
-        _app = self.import_module("tk_multi_renderfarm")
+        _app = self.import_module("app")
         # create a callback to run when our command is launched.
         # pass the app object as a parameter.
         cb = lambda : _app.show_dialog(self)
