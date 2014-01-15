@@ -79,11 +79,11 @@ class AppDialog(QtGui.QWidget):
             self.ui.central_stackedWidget.setCurrentWidget(self.ui.progress_page)
 
             #execute hook
-            QtCore.QTimer.singleShot(1, self.execute_post_hook)
+            QtCore.QTimer.singleShot(1, self.execute_submit_hook)
         else:
             QtGui.QMessageBox.information(None, "Unable To Render!", "No items were selected to submit!")
 
-    def execute_post_hook(self):
+    def execute_submit_hook(self):
         #execute hook
         errors = self._app.execute_hook("hook_submit",
                                         app=self._app,
