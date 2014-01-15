@@ -16,7 +16,7 @@ class PreSubmitHook(Hook):
         if not scene_name:
             raise TankError("Please Save your file before Rendering")
 
-        attrs.append({'type': 'work_file', 'value': scene_name})
+        attrs.append({'type': 'work_file', 'value': str(scene_name)})
 
         #scan scene for starting information
         attrs.append({'type': 'start', 'value': int(cmds.getAttr('defaultRenderGlobals.startFrame'))})
@@ -24,7 +24,7 @@ class PreSubmitHook(Hook):
         attrs.append({'type': 'by', 'value': 1})
 
         jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
-        attrs.append({'type': 'jobname', 'value': jobname})
+        attrs.append({'type': 'jobname', 'value': str(jobname)})
 
         #additional data
         #items.append({'type':'Limit','value':'maya_render'})

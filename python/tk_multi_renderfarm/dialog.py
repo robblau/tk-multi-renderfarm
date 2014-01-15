@@ -3,13 +3,6 @@ Copyright (c) 2012 Shotgun Software, Inc
 ----------------------------------------------------
 """
 import tank
-import platform
-import unicodedata
-import os
-import sys
-import pprint
-import threading
-
 import sgtk
 from tank.platform.qt import QtCore, QtGui
 from tank import TankError
@@ -34,7 +27,7 @@ class AppDialog(QtGui.QWidget):
 
         #fail safe for unsaved work
         try:
-            self._pre_submit()
+            self.attributes = self._app.execute_hook('hook_pre_submit')
             self.show_render_dlg()
             self._outputs = [PublishOutput(self._app, output) for output in self._app.get_setting("outputs")]
             self._populate_output_list()
@@ -44,7 +37,6 @@ class AppDialog(QtGui.QWidget):
             print(e)
 
     def submit_btn_released(self):
-        #collecting output data
         self.data_outputs = []
 
         for item in self.ui.contents.children():
@@ -56,13 +48,7 @@ class AppDialog(QtGui.QWidget):
                     data['output']['name'] = item._output.name
                     data['output']['tank_type'] = item._output.tank_type
 
-                    data['jobname'] = self.ui.jobname_lineEdit.text()
-                    data['priority'] = self.ui.priority_spinBox.value()
-                    data['start'] = self.ui.start_spinBox.value()
-                    data['end'] = self.ui.end_spinBox.value()
-                    data['work_file'] = self.work_file
-
-                    for item in self.additionalInfo:
+                    for item in self.attributes:
                         widget = item['widget']
                         if isinstance(widget, QtGui.QLineEdit):
                             data[item['type']] = widget.text()
@@ -109,12 +95,6 @@ class AppDialog(QtGui.QWidget):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-        #setting start information
-        self.ui.jobname_lineEdit.setText(self.jobname)
-        self.ui.priority_spinBox.setValue(self.priority)
-        self.ui.start_spinBox.setValue(self.start)
-        self.ui.end_spinBox.setValue(self.end)
-
         #making sure submit page is showing
         self.ui.central_stackedWidget.setCurrentWidget(self.ui.submit_page)
 
@@ -122,19 +102,14 @@ class AppDialog(QtGui.QWidget):
         gridLayout = self.ui.gridLayout_additional
 
         #removing additionalInfo label
-        if len(self.additionalInfo) != 0:
+        if len(self.attributes) != 0:
             gridLayout.removeWidget(self.ui.additionalInfo_label)
             self.ui.additionalInfo_label.setParent(None)
 
         #populate additional info ui
         row = 0
-        for item in self.additionalInfo:
-            # additionalItem = QtGui.QWidget()
-            # layout = QtGui.QHBoxLayout(additionalItem)
-            # layout.setContentsMargins(0, 0, 0, 0)
-
+        for item in self.attributes:
             label = QtGui.QLabel(item['type'] + ':')
-            # layout.addWidget(label)
             gridLayout.addWidget(label, row, 0, 1, 1)
 
             widget = None
@@ -149,11 +124,7 @@ class AppDialog(QtGui.QWidget):
 
             if widget:
                 gridLayout.addWidget(widget, row, 2, 1, 1)
-
-            # layout.addStretch(1)
-
                 item['widget'] = widget
-            # groupLayout.addWidget(additionalItem)
 
             row += 1
 
@@ -170,7 +141,6 @@ class AppDialog(QtGui.QWidget):
         #TODO
 
         if len(self._outputs) == 0:
-            # no tasks so show no tasks text:
             self.ui.renders_stacked_widget.setCurrentWidget(self.ui.no_renders_page)
             return
         else:
@@ -183,26 +153,3 @@ class AppDialog(QtGui.QWidget):
             layout.addWidget(item)
 
         layout.addStretch(1)
-
-    def _pre_submit(self):
-        #getting start information
-        self.jobname = 'default'
-        self.ctx = self._app.context
-        self.user = sgtk.util.get_current_user(self._app.sgtk)
-        self.start = 0
-        self.end = 0
-        self.priority = 50
-        self.work_file = None
-
-        self.additionalInfo = []
-        for item in self._app.execute_hook("hook_pre_submit"):
-            if item['type'] == 'start':
-                self.start = item['value']
-            elif item['type'] == 'end':
-                self.end = item['value']
-            elif item['type'] == 'jobname':
-                self.jobname = item['value']
-            elif item['type'] == 'work_file':
-                self.work_file = item['value']
-            else:
-                self.additionalInfo.append(item)
