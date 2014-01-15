@@ -85,7 +85,7 @@ class AppDialog(QtGui.QWidget):
 
     def execute_post_hook(self):
         #execute hook
-        errors = self._app.execute_hook("hook_post_submit",
+        errors = self._app.execute_hook("hook_submit",
                                         app=self._app,
                                         outputs=self.data_outputs,
                                         widget=self.ui)
