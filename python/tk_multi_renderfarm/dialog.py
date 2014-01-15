@@ -18,128 +18,93 @@ from ui.results import Ui_PublishResultForm
 from .output_item import OutputItem
 from .output import PublishOutput
 
+
 class AppDialog(QtGui.QWidget):
-    '''
-    Extra Attributes supported:
+    '''Extra Attributes supported:
         - int
         - string
         - bool
-
     '''
-
 
     def __init__(self, app):
         QtGui.QWidget.__init__(self)
-        self._app = app
 
-        self._outputs=[]
+        self._app = app
+        self._outputs = []
 
         #fail safe for unsaved work
         try:
             self._pre_submit()
-
             self.show_render_dlg()
-
-            self.create_connections()
-
-            self._outputs=[PublishOutput(self._app, output) for output in self._app.get_setting("outputs")]
-
+            self._outputs = [PublishOutput(self._app, output) for output in self._app.get_setting("outputs")]
             self._populate_output_list()
-
         except TankError, e:
-            self.log_debug(e)
             QtGui.QMessageBox.information(None, "Unable To Render!", "%s" % e)
-
-    def create_connections(self):
-
-        self.ui.submit_btn.released.connect(self.submit_btn_released)
-        self.ui.cancel_btn.released.connect(self.close_released)
-
-        self.ui.success_close_btn.released.connect(self.close_released)
-
-        self.ui.failure_close_btn.released.connect(self.close_released)
-
-    def close_released(self):
-
-        self.close()
+        except Exception as e:
+            print(e)
 
     def submit_btn_released(self):
-
         #collecting output data
-        self.data_outputs=[]
+        self.data_outputs = []
 
         for item in self.ui.contents.children():
-
-            if isinstance(item,OutputItem):
-
+            if isinstance(item, OutputItem):
                 if item.selected:
+                    data = {}
 
-                    data={}
+                    data['output'] = {}
+                    data['output']['name'] = item._output.name
+                    data['output']['tank_type'] = item._output.tank_type
 
-                    data['output']={}
-                    data['output']['name']=item._output.name
-                    data['output']['tank_type']=item._output.tank_type
-
-                    data['jobname']=self.ui.jobname_lineEdit.text()
-                    data['priority']=self.ui.priority_spinBox.value()
-                    data['start']=self.ui.start_spinBox.value()
-                    data['end']=self.ui.end_spinBox.value()
-                    data['work_file']=self.work_file
+                    data['jobname'] = self.ui.jobname_lineEdit.text()
+                    data['priority'] = self.ui.priority_spinBox.value()
+                    data['start'] = self.ui.start_spinBox.value()
+                    data['end'] = self.ui.end_spinBox.value()
+                    data['work_file'] = self.work_file
 
                     for item in self.additionalInfo:
-
-                        widget=item['widget']
-                        if isinstance(widget,QtGui.QLineEdit):
-
-                            data[item['type']]=widget.text()
-
-                        elif isinstance(widget,QtGui.QCheckBox):
-
-                            data[item['type']]=widget.isChecked()
-
-                        elif isinstance(widget,QtGui.QSpinBox):
-
-                            data[item['type']]=widget.value()
+                        widget = item['widget']
+                        if isinstance(widget, QtGui.QLineEdit):
+                            data[item['type']] = widget.text()
+                        elif isinstance(widget, QtGui.QCheckBox):
+                            data[item['type']] = widget.isChecked()
+                        elif isinstance(widget, QtGui.QSpinBox):
+                            data[item['type']] = widget.value()
 
                     self.data_outputs.append(data)
 
         #is anything selected?
-        if len(self.data_outputs)!=0:
-
+        if len(self.data_outputs) != 0:
             #showing progress page
             self.ui.central_stackedWidget.setCurrentWidget(self.ui.progress_page)
 
             #execute hook
-            QtCore.QTimer.singleShot(1,self.execute_post_hook)
-
+            QtCore.QTimer.singleShot(1, self.execute_post_hook)
         else:
             QtGui.QMessageBox.information(None, "Unable To Render!", "No items were selected to submit!")
 
     def execute_post_hook(self):
-
         #execute hook
-        errors=self._app.execute_hook("hook_post_submit",app=self._app,outputs=self.data_outputs,
-                                      widget=self.ui)
+        errors = self._app.execute_hook("hook_post_submit",
+                                        app=self._app,
+                                        outputs=self.data_outputs,
+                                        widget=self.ui)
 
         #success or failure?
-        if len(errors)==0:
-
+        if len(errors) == 0:
             self.ui.central_stackedWidget.setCurrentWidget(self.ui.success_page)
-
         else:
-
             self.ui.central_stackedWidget.setCurrentWidget(self.ui.failure_page)
 
             #generate errors report
-            report=''
+            report = ''
             for output in errors:
                 for error in output['errors']:
-                    report+=error+'\n'
+                    report += error + '\n'
 
             self.ui.failure_details.setText(report)
 
     def show_render_dlg(self):
-
         # set up the UI
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
@@ -198,15 +163,16 @@ class AppDialog(QtGui.QWidget):
 
             item['widget']=widget
 
-            groupLayout.addWidget(additionalItem)
+        self.ui.submit_btn.released.connect(self.submit_btn_released)
+        self.ui.cancel_btn.released.connect(self.close)
+        self.ui.success_close_btn.released.connect(self.close)
+        self.ui.failure_close_btn.released.connect(self.close)
 
     def _populate_output_list(self):
+        """Build the main task list for selection of outputs, items, etc.
         """
-        Build the main task list for selection of outputs, items, etc.
-        """
-
-        # clear existing widgets:
-        task_scroll_widget = self.ui.task_scroll.widget()
+        # clear existing widgets
+        # task_scroll_widget = self.ui.task_scroll.widget()
         #TODO
 
         if len(self._outputs) == 0:
@@ -219,38 +185,30 @@ class AppDialog(QtGui.QWidget):
         layout = QtGui.QVBoxLayout(self.ui.contents)
 
         for output in self._outputs:
-
             item = OutputItem(output, self.ui.contents)
             layout.addWidget(item)
 
-        # add vertical stretch:
         layout.addStretch(1)
 
     def _pre_submit(self):
-
         #getting start information
-        self.jobname='default'
-        self.ctx=self._app.context
-        self.user=sgtk.util.get_current_user(self._app.sgtk)
-        self.start=0
-        self.end=0
-        self.priority=50
-        self.work_file=None
+        self.jobname = 'default'
+        self.ctx = self._app.context
+        self.user = sgtk.util.get_current_user(self._app.sgtk)
+        self.start = 0
+        self.end = 0
+        self.priority = 50
+        self.work_file = None
 
-        self.additionalInfo=[]
+        self.additionalInfo = []
         for item in self._app.execute_hook("hook_pre_submit"):
-
-            if item['type']=='start':
-                self.start=item['value']
-
-            elif item['type']=='end':
-                self.end=item['value']
-
-            elif item['type']=='jobname':
-                self.jobname=item['value']
-
-            elif item['type']=='work_file':
-                self.work_file=item['value']
-
+            if item['type'] == 'start':
+                self.start = item['value']
+            elif item['type'] == 'end':
+                self.end = item['value']
+            elif item['type'] == 'jobname':
+                self.jobname = item['value']
+            elif item['type'] == 'work_file':
+                self.work_file = item['value']
             else:
                 self.additionalInfo.append(item)
