@@ -16,7 +16,7 @@ class PreSubmitHook(Hook):
         if not scene_name:
             raise TankError("Please Save your file before Rendering")
 
-        attrs.append({"type": "work_file", "value": scene_name})
+        attrs.append({'type': 'work_file', 'value': scene_name})
 
         #scan scene for starting information
         attrs.append({'type': 'start', 'value': nuke.root()['first_frame'].value()})
