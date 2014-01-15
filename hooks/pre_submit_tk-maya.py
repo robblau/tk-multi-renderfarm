@@ -19,8 +19,9 @@ class PreSubmitHook(Hook):
         attrs.append({'type': 'work_file', 'value': scene_name})
 
         #scan scene for starting information
-        attrs.append({'type': 'start', 'value': cmds.getAttr('defaultRenderGlobals.startFrame')})
-        attrs.append({'type': 'end', 'value': cmds.getAttr('defaultRenderGlobals.endFrame')})
+        attrs.append({'type': 'start', 'value': int(cmds.getAttr('defaultRenderGlobals.startFrame'))})
+        attrs.append({'type': 'end', 'value': int(cmds.getAttr('defaultRenderGlobals.endFrame'))})
+        attrs.append({'type': 'by', 'value': 1})
 
         jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
         attrs.append({'type': 'jobname', 'value': jobname})

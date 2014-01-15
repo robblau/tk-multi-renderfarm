@@ -21,6 +21,7 @@ class PreSubmitHook(Hook):
         #scan scene for starting information
         attrs.append({'type': 'start', 'value': nuke.root()['first_frame'].value()})
         attrs.append({'type': 'end', 'value': nuke.root()['last_frame'].value()})
+        attrs.append({'type': 'by', 'value': 1})
 
         jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
         attrs.append({'type': 'jobname', 'value': jobname})

@@ -62,4 +62,5 @@ class PostSubmitHook(Hook):
     def maya_render(self, output):
         '''Method for submitting to the render farm.
         '''
-        pass
+        print(output)
+        # pass
