@@ -119,49 +119,43 @@ class AppDialog(QtGui.QWidget):
         self.ui.central_stackedWidget.setCurrentWidget(self.ui.submit_page)
 
         #generate ui for extra attributes
-        groupLayout=self.ui.additionalInfo_groupBox.layout()
+        gridLayout = self.ui.gridLayout_additional
 
         #removing additionalInfo label
-        if len(self.additionalInfo)!=0:
-            groupLayout.removeWidget(self.ui.additionalInfo_label)
+        if len(self.additionalInfo) != 0:
+            gridLayout.removeWidget(self.ui.additionalInfo_label)
             self.ui.additionalInfo_label.setParent(None)
 
         #populate additional info ui
+        row = 0
         for item in self.additionalInfo:
+            # additionalItem = QtGui.QWidget()
+            # layout = QtGui.QHBoxLayout(additionalItem)
+            # layout.setContentsMargins(0, 0, 0, 0)
 
-            additionalItem=QtGui.QWidget()
-            layout=QtGui.QHBoxLayout(additionalItem)
-            layout.setContentsMargins(0, 0, 0, 0)
+            label = QtGui.QLabel(item['type'] + ':')
+            # layout.addWidget(label)
+            gridLayout.addWidget(label, row, 0, 1, 1)
 
-            label=QtGui.QLabel(item['type']+':')
-            layout.addWidget(label)
-
-            widget=None
-            if isinstance(item['value'],str):
-
-                widget=QtGui.QLineEdit(item['value'])
-
-                layout.addWidget(widget)
-
-            elif isinstance(item['value'],bool):
-
-                widget=QtGui.QCheckBox()
-
-                layout.addWidget(widget)
-
+            widget = None
+            if isinstance(item['value'], str):
+                widget = QtGui.QLineEdit(item['value'])
+            elif isinstance(item['value'], bool):
+                widget = QtGui.QCheckBox()
                 widget.setChecked(item['value'])
-
-            elif isinstance(item['value'],int):
-
-                widget=QtGui.QSpinBox()
-
-                layout.addWidget(widget)
-
+            elif isinstance(item['value'], int):
+                widget = QtGui.QSpinBox()
                 widget.setValue(item['value'])
 
-            layout.addStretch(1)
+            if widget:
+                gridLayout.addWidget(widget, row, 2, 1, 1)
 
-            item['widget']=widget
+            # layout.addStretch(1)
+
+                item['widget'] = widget
+            # groupLayout.addWidget(additionalItem)
+
+            row += 1
 
         self.ui.submit_btn.released.connect(self.submit_btn_released)
         self.ui.cancel_btn.released.connect(self.close)

@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Tue Dec 03 12:22:53 2013
-#      by: pyside-uic 0.2.15 running on PySide 1.2.1
+#      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide import QtCore, QtGui
+from tank.platform.qt import QtCore, QtGui
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -162,11 +161,11 @@ class Ui_Dialog(object):
         self.additionalInfo_groupBox.setTitle("")
         self.additionalInfo_groupBox.setCheckable(False)
         self.additionalInfo_groupBox.setObjectName("additionalInfo_groupBox")
-        self.verticalLayout_4 = QtGui.QVBoxLayout(self.additionalInfo_groupBox)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.gridLayout_additional = QtGui.QGridLayout(self.additionalInfo_groupBox)
+        self.gridLayout_additional.setObjectName("gridLayout_additional")
         self.additionalInfo_label = QtGui.QLabel(self.additionalInfo_groupBox)
         self.additionalInfo_label.setObjectName("additionalInfo_label")
-        self.verticalLayout_4.addWidget(self.additionalInfo_label)
+        self.gridLayout_additional.addWidget(self.additionalInfo_label, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.additionalInfo_groupBox)
         spacerItem4 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem4)
@@ -341,7 +340,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.central_stackedWidget)
 
         self.retranslateUi(Dialog)
-        self.central_stackedWidget.setCurrentIndex(1)
+        self.central_stackedWidget.setCurrentIndex(0)
         self.renders_stacked_widget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -367,4 +366,4 @@ class Ui_Dialog(object):
         self.failure_details.setText(QtGui.QApplication.translate("Dialog", "Details...", None, QtGui.QApplication.UnicodeUTF8))
         self.failure_close_btn.setText(QtGui.QApplication.translate("Dialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
 
-import resources_rc
+from . import resources_rc

@@ -17,7 +17,7 @@
    <item>
     <widget class="QStackedWidget" name="central_stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="submit_page">
       <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -340,8 +340,8 @@ font-size: 14px
            <property name="checkable">
             <bool>false</bool>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
+           <layout class="QGridLayout" name="gridLayout_additional">
+            <item row="0" column="0">
              <widget class="QLabel" name="additionalInfo_label">
               <property name="text">
                <string>No information needed.</string>
