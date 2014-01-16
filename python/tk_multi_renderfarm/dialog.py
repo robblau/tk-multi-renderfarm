@@ -32,7 +32,7 @@ class AppDialog(QtGui.QWidget):
             self._outputs = [PublishOutput(self._app, output) for output in self._app.get_setting("outputs")]
             self._populate_output_list()
         except TankError, e:
-            QtGui.QMessageBox.information(None, "Unable To Render!", "%s" % e)
+            QtGui.QMessageBox.information(None, "Unable To Submit!", "%s" % e)
         except Exception as e:
             print(e)
 
@@ -69,7 +69,7 @@ class AppDialog(QtGui.QWidget):
             #execute hook
             QtCore.QTimer.singleShot(1, self.execute_submit_hook)
         else:
-            QtGui.QMessageBox.information(None, "Unable To Render!", "No items were selected to submit!")
+            QtGui.QMessageBox.information(None, "Unable To Submit!", "No items were selected to submit!")
 
     def execute_submit_hook(self):
         #execute hook
