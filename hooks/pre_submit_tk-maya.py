@@ -16,7 +16,7 @@ class PreSubmitHook(Hook):
         if not scene_name:
             raise TankError("Please Save your file before Rendering")
 
-        attrs.append({'type': 'work_file', 'value': str(scene_name)})
+        attrs.append({'type': 'submit_file', 'value': str(scene_name)})
 
         attrs.append({'type': 'start', 'value': int(cmds.getAttr('defaultRenderGlobals.startFrame'))})
         attrs.append({'type': 'end', 'value': int(cmds.getAttr('defaultRenderGlobals.endFrame'))})
