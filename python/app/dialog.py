@@ -30,31 +30,28 @@ class AppDialog(QtGui.QWidget):
         self.data_outputs = []
 
         for item in self.ui.contents.children():
-            if isinstance(item, OutputItem):
-                if item.selected:
-                    data = {}
+            if isinstance(item, OutputItem) and item.selected:
+                data = {}
 
-                    data['output'] = {}
-                    data['output']['name'] = item._output.name
-                    data['output']['tank_type'] = item._output.tank_type
+                data['output'] = {}
+                data['output']['name'] = item._output.name
+                data['output']['tank_type'] = item._output.tank_type
 
-                    for item in self.attributes:
-                        
-                        if item['gui']:
-                            
-                            widget = item['widget']
-                            if isinstance(widget, QtGui.QLineEdit):
-                                data[item['type']] = widget.text()
-                            elif isinstance(widget, QtGui.QCheckBox):
-                                data[item['type']] = widget.isChecked()
-                            elif isinstance(widget, QtGui.QSpinBox):
-                                data[item['type']] = widget.value()
-                            elif isinstance(widget, QtGui.QComboBox):
-                                data[item['type']] = widget.currentText()
-                        else:
-                            data[item['type']] = item['value']
+                for item in self.attributes:
+                    if not item.get('hidden', False):
+                        widget = item['widget']
+                        if isinstance(widget, QtGui.QLineEdit):
+                            data[item['name']] = widget.text()
+                        elif isinstance(widget, QtGui.QCheckBox):
+                            data[item['name']] = widget.isChecked()
+                        elif isinstance(widget, QtGui.QSpinBox):
+                            data[item['name']] = widget.value()
+                        elif isinstance(widget, QtGui.QComboBox):
+                            data[item['name']] = widget.currentText()
+                    else:
+                        data[item['name']] = item['value']
 
-                    self.data_outputs.append(data)
+                self.data_outputs.append(data)
 
         #is anything selected?
         if len(self.data_outputs) != 0:
@@ -98,12 +95,10 @@ class AppDialog(QtGui.QWidget):
         #populate job attributes
         row = 0
         for item in self.attributes:
-            
-            if item['gui']:
-            
-                label = QtGui.QLabel(item['type'] + ':')
+            if not item.get('hidden', False):
+                label = QtGui.QLabel(item.get('title', item['name']))
                 self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
-    
+
                 widget = None
                 if isinstance(item['value'], str):
                     widget = QtGui.QLineEdit(item['value'])
@@ -117,13 +112,13 @@ class AppDialog(QtGui.QWidget):
                     widget = QtGui.QComboBox()
                     for i in item['value']:
                         widget.addItem(i)
-    
+
                 if widget:
                     self.ui.gridLayout.addWidget(widget, row, 2, 1, 1)
                     item['widget'] = widget
-    
+
                 row += 1
-        
+
         #connecting buttons to methods
         self.ui.submit_btn.released.connect(self.submit_btn_released)
         self.ui.cancel_btn.released.connect(self.close)
