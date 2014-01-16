@@ -98,19 +98,11 @@ class AppDialog(QtGui.QWidget):
         #making sure submit page is showing
         self.ui.central_stackedWidget.setCurrentWidget(self.ui.submit_page)
 
-        #generate ui for extra attributes
-        gridLayout = self.ui.gridLayout_additional
-
-        #removing additionalInfo label
-        if len(self.attributes) != 0:
-            gridLayout.removeWidget(self.ui.additionalInfo_label)
-            self.ui.additionalInfo_label.setParent(None)
-
         #populate additional info ui
         row = 0
         for item in self.attributes:
             label = QtGui.QLabel(item['type'] + ':')
-            gridLayout.addWidget(label, row, 0, 1, 1)
+            self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
 
             widget = None
             if isinstance(item['value'], str):
@@ -123,7 +115,7 @@ class AppDialog(QtGui.QWidget):
                 widget.setValue(item['value'])
 
             if widget:
-                gridLayout.addWidget(widget, row, 2, 1, 1)
+                self.ui.gridLayout.addWidget(widget, row, 2, 1, 1)
                 item['widget'] = widget
 
             row += 1

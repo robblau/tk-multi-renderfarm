@@ -209,7 +209,7 @@ font-size: 14px
 }</string>
            </property>
            <property name="text">
-            <string>Edit Information about your Submission:</string>
+            <string>Job Attributes:</string>
            </property>
            <property name="indent">
             <number>4</number>
@@ -227,128 +227,7 @@ font-size: 14px
            <property name="checkable">
             <bool>false</bool>
            </property>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="1" column="2">
-             <widget class="QSpinBox" name="priority_spinBox">
-              <property name="maximumSize">
-               <size>
-                <width>45</width>
-                <height>9999</height>
-               </size>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QSpinBox" name="start_spinBox">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-9999999</number>
-              </property>
-              <property name="maximum">
-               <number>99999999</number>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QSpinBox" name="end_spinBox">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-9999999</number>
-              </property>
-              <property name="maximum">
-               <number>99999999</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Priority:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Jobname:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="jobname_lineEdit"/>
-            </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>End:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="2">
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Start:</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="info_title_label_2">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#info_title_label {
-font-size: 14px
-}</string>
-           </property>
-           <property name="text">
-            <string>Edit Additional Information about your Submission:</string>
-           </property>
-           <property name="indent">
-            <number>4</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="additionalInfo_groupBox">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="title">
-            <string/>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_additional">
-            <item row="0" column="0">
-             <widget class="QLabel" name="additionalInfo_label">
-              <property name="text">
-               <string>No information needed.</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <layout class="QGridLayout" name="gridLayout"/>
           </widget>
          </item>
          <item>
