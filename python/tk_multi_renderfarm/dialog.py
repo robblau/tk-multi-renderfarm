@@ -134,10 +134,6 @@ class AppDialog(QtGui.QWidget):
     def _populate_output_list(self):
         """Build the main task list for selection of outputs, items, etc.
         """
-        # clear existing widgets
-        # task_scroll_widget = self.ui.task_scroll.widget()
-        #TODO
-
         if len(self._outputs) == 0:
             self.ui.renders_stacked_widget.setCurrentWidget(self.ui.no_renders_page)
             return
