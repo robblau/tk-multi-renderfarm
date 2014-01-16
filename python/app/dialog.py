@@ -1,23 +1,13 @@
-"""
-Copyright (c) 2012 Shotgun Software, Inc
-----------------------------------------------------
-"""
 import tank
 import sgtk
 from tank.platform.qt import QtCore, QtGui
 from tank import TankError
 from .ui.dialog import Ui_Dialog
-from ui.results import Ui_PublishResultForm
 from .output_item import OutputItem
 from .output import PublishOutput
 
 
 class AppDialog(QtGui.QWidget):
-    '''Extra Attributes supported:
-        - int
-        - string
-        - bool
-    '''
 
     def __init__(self, app):
         QtGui.QWidget.__init__(self)
