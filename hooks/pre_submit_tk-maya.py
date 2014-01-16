@@ -18,16 +18,14 @@ class PreSubmitHook(Hook):
 
         attrs.append({'type': 'work_file', 'value': str(scene_name)})
 
-        #scan scene for starting information
         attrs.append({'type': 'start', 'value': int(cmds.getAttr('defaultRenderGlobals.startFrame'))})
         attrs.append({'type': 'end', 'value': int(cmds.getAttr('defaultRenderGlobals.endFrame'))})
         attrs.append({'type': 'by', 'value': 1})
 
         jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
         attrs.append({'type': 'jobname', 'value': str(jobname)})
-
-        #additional data
-        #items.append({'type':'Limit','value':'maya_render'})
+        attrs.append({'type': 'queue', 'value': ['high', 'mid', 'low']})
+        attrs.append({'type': 'submit', 'value': True})
 
         #saving scene before dialog
         cmds.file(save=True, force=True)

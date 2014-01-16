@@ -18,16 +18,14 @@ class PreSubmitHook(Hook):
 
         attrs.append({'type': 'work_file', 'value': scene_name})
 
-        #scan scene for starting information
         attrs.append({'type': 'start', 'value': nuke.root()['first_frame'].value()})
         attrs.append({'type': 'end', 'value': nuke.root()['last_frame'].value()})
         attrs.append({'type': 'by', 'value': 1})
 
         jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
         attrs.append({'type': 'jobname', 'value': jobname})
-
-        #adding extra attributes
-        #items.append({'type':'Limit','value':'nuke_render'})
+        attrs.append({'type': 'queue', 'value': ['high', 'mid', 'low']})
+        attrs.append({'type': 'submit', 'value': True})
 
         #saving scene before dialog
         nuke.scriptSave()
