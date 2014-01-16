@@ -75,8 +75,8 @@ border-color: rgb(32,32,32);
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>98</width>
-                  <height>28</height>
+                  <width>359</width>
+                  <height>419</height>
                  </rect>
                 </property>
                </widget>
@@ -201,6 +201,9 @@ border-color: rgb(32,32,32);
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>4</number>
+         </property>
          <item>
           <widget class="QLabel" name="info_title_label">
            <property name="styleSheet">
@@ -227,7 +230,11 @@ font-size: 14px
            <property name="checkable">
             <bool>false</bool>
            </property>
-           <layout class="QGridLayout" name="gridLayout"/>
+           <layout class="QGridLayout" name="gridLayout">
+            <property name="topMargin">
+             <number>12</number>
+            </property>
+           </layout>
           </widget>
          </item>
          <item>
