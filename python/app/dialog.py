@@ -107,6 +107,8 @@ class AppDialog(QtGui.QWidget):
                     widget.setChecked(item['value'])
                 elif isinstance(item['value'], int):
                     widget = QtGui.QSpinBox()
+                    widget.setMaximum(9999)
+                    widget.setMinimum(-9999)
                     widget.setValue(item['value'])
                 elif isinstance(item['value'], list):
                     widget = QtGui.QComboBox()
