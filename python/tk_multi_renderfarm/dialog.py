@@ -51,13 +51,13 @@ class AppDialog(QtGui.QWidget):
                     for item in self.attributes:
                         widget = item['widget']
                         if isinstance(widget, QtGui.QLineEdit):
-                            data[item['type']] = widget.text()
+                            data[item['name']] = widget.text()
                         elif isinstance(widget, QtGui.QCheckBox):
-                            data[item['type']] = widget.isChecked()
+                            data[item['name']] = widget.isChecked()
                         elif isinstance(widget, QtGui.QSpinBox):
-                            data[item['type']] = widget.value()
+                            data[item['name']] = widget.value()
                         elif isinstance(widget, QtGui.QComboBox):
-                            data[item['type']] = widget.currentText()
+                            data[item['name']] = widget.currentText()
 
                     self.data_outputs.append(data)
 
@@ -103,7 +103,7 @@ class AppDialog(QtGui.QWidget):
         #populate additional info ui
         row = 0
         for item in self.attributes:
-            label = QtGui.QLabel(item['type'] + ':')
+            label = QtGui.QLabel(item.get('title', item['name']))
             self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
 
             widget = None
