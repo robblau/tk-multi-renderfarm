@@ -49,15 +49,20 @@ class AppDialog(QtGui.QWidget):
                     data['output']['tank_type'] = item._output.tank_type
 
                     for item in self.attributes:
-                        widget = item['widget']
-                        if isinstance(widget, QtGui.QLineEdit):
-                            data[item['type']] = widget.text()
-                        elif isinstance(widget, QtGui.QCheckBox):
-                            data[item['type']] = widget.isChecked()
-                        elif isinstance(widget, QtGui.QSpinBox):
-                            data[item['type']] = widget.value()
-                        elif isinstance(widget, QtGui.QComboBox):
-                            data[item['type']] = widget.currentText()
+                        
+                        if item['gui']:
+                            
+                            widget = item['widget']
+                            if isinstance(widget, QtGui.QLineEdit):
+                                data[item['type']] = widget.text()
+                            elif isinstance(widget, QtGui.QCheckBox):
+                                data[item['type']] = widget.isChecked()
+                            elif isinstance(widget, QtGui.QSpinBox):
+                                data[item['type']] = widget.value()
+                            elif isinstance(widget, QtGui.QComboBox):
+                                data[item['type']] = widget.currentText()
+                        else:
+                            data[item['type']] = item['value']
 
                     self.data_outputs.append(data)
 
@@ -100,32 +105,36 @@ class AppDialog(QtGui.QWidget):
         #making sure submit page is showing
         self.ui.central_stackedWidget.setCurrentWidget(self.ui.submit_page)
 
-        #populate additional info ui
+        #populate job attributes
         row = 0
         for item in self.attributes:
-            label = QtGui.QLabel(item['type'] + ':')
-            self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
-
-            widget = None
-            if isinstance(item['value'], str):
-                widget = QtGui.QLineEdit(item['value'])
-            elif isinstance(item['value'], bool):
-                widget = QtGui.QCheckBox()
-                widget.setChecked(item['value'])
-            elif isinstance(item['value'], int):
-                widget = QtGui.QSpinBox()
-                widget.setValue(item['value'])
-            elif isinstance(item['value'], list):
-                widget = QtGui.QComboBox()
-                for i in item['value']:
-                    widget.addItem(i)
-
-            if widget:
-                self.ui.gridLayout.addWidget(widget, row, 2, 1, 1)
-                item['widget'] = widget
-
-            row += 1
-
+            
+            if item['gui']:
+            
+                label = QtGui.QLabel(item['type'] + ':')
+                self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
+    
+                widget = None
+                if isinstance(item['value'], str):
+                    widget = QtGui.QLineEdit(item['value'])
+                elif isinstance(item['value'], bool):
+                    widget = QtGui.QCheckBox()
+                    widget.setChecked(item['value'])
+                elif isinstance(item['value'], int):
+                    widget = QtGui.QSpinBox()
+                    widget.setValue(item['value'])
+                elif isinstance(item['value'], list):
+                    widget = QtGui.QComboBox()
+                    for i in item['value']:
+                        widget.addItem(i)
+    
+                if widget:
+                    self.ui.gridLayout.addWidget(widget, row, 2, 1, 1)
+                    item['widget'] = widget
+    
+                row += 1
+        
+        #connecting buttons to methods
         self.ui.submit_btn.released.connect(self.submit_btn_released)
         self.ui.cancel_btn.released.connect(self.close)
         self.ui.success_close_btn.released.connect(self.close)
