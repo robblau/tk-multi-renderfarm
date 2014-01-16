@@ -56,6 +56,8 @@ class AppDialog(QtGui.QWidget):
                             data[item['type']] = widget.isChecked()
                         elif isinstance(widget, QtGui.QSpinBox):
                             data[item['type']] = widget.value()
+                        elif isinstance(widget, QtGui.QComboBox):
+                            data[item['type']] = widget.currentText()
 
                     self.data_outputs.append(data)
 
@@ -113,6 +115,10 @@ class AppDialog(QtGui.QWidget):
             elif isinstance(item['value'], int):
                 widget = QtGui.QSpinBox()
                 widget.setValue(item['value'])
+            elif isinstance(item['value'], list):
+                widget = QtGui.QComboBox()
+                for i in item['value']:
+                    widget.addItem(i)
 
             if widget:
                 self.ui.gridLayout.addWidget(widget, row, 2, 1, 1)
