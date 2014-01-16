@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Tue Dec 03 12:22:53 2013
-#      by: pyside-uic 0.2.15 running on PySide 1.2.1
+#      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide import QtCore, QtGui
+from tank.platform.qt import QtCore, QtGui
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -50,7 +49,7 @@ class Ui_Dialog(object):
         self.task_scroll.setWidgetResizable(True)
         self.task_scroll.setObjectName("task_scroll")
         self.contents = QtGui.QWidget()
-        self.contents.setGeometry(QtCore.QRect(0, 0, 98, 28))
+        self.contents.setGeometry(QtCore.QRect(0, 0, 359, 419))
         self.contents.setObjectName("contents")
         self.task_scroll.setWidget(self.contents)
         self.horizontalLayout_7.addWidget(self.task_scroll)
@@ -97,6 +96,7 @@ class Ui_Dialog(object):
         self.verticalLayout_7.addWidget(self.renders_stacked_widget)
         self.horizontalLayout_4.addLayout(self.verticalLayout_7)
         self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout.setSpacing(4)
         self.verticalLayout.setObjectName("verticalLayout")
         self.info_title_label = QtGui.QLabel(self.submit_page)
         self.info_title_label.setStyleSheet("#info_title_label {\n"
@@ -111,63 +111,9 @@ class Ui_Dialog(object):
         self.groupBox.setCheckable(False)
         self.groupBox.setObjectName("groupBox")
         self.gridLayout = QtGui.QGridLayout(self.groupBox)
+        self.gridLayout.setContentsMargins(-1, 12, -1, -1)
         self.gridLayout.setObjectName("gridLayout")
-        self.priority_spinBox = QtGui.QSpinBox(self.groupBox)
-        self.priority_spinBox.setMaximumSize(QtCore.QSize(45, 9999))
-        self.priority_spinBox.setProperty("value", 0)
-        self.priority_spinBox.setObjectName("priority_spinBox")
-        self.gridLayout.addWidget(self.priority_spinBox, 1, 2, 1, 1)
-        self.start_spinBox = QtGui.QSpinBox(self.groupBox)
-        self.start_spinBox.setMaximumSize(QtCore.QSize(60, 16777215))
-        self.start_spinBox.setMinimum(-9999999)
-        self.start_spinBox.setMaximum(99999999)
-        self.start_spinBox.setObjectName("start_spinBox")
-        self.gridLayout.addWidget(self.start_spinBox, 2, 2, 1, 1)
-        self.end_spinBox = QtGui.QSpinBox(self.groupBox)
-        self.end_spinBox.setMaximumSize(QtCore.QSize(60, 16777215))
-        self.end_spinBox.setMinimum(-9999999)
-        self.end_spinBox.setMaximum(99999999)
-        self.end_spinBox.setObjectName("end_spinBox")
-        self.gridLayout.addWidget(self.end_spinBox, 3, 2, 1, 1)
-        self.label_4 = QtGui.QLabel(self.groupBox)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
-        self.label = QtGui.QLabel(self.groupBox)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.jobname_lineEdit = QtGui.QLineEdit(self.groupBox)
-        self.jobname_lineEdit.setObjectName("jobname_lineEdit")
-        self.gridLayout.addWidget(self.jobname_lineEdit, 0, 2, 1, 1)
-        self.label_3 = QtGui.QLabel(self.groupBox)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 3, 0, 1, 2)
-        self.label_2 = QtGui.QLabel(self.groupBox)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 2)
         self.verticalLayout.addWidget(self.groupBox)
-        self.info_title_label_2 = QtGui.QLabel(self.submit_page)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.info_title_label_2.setFont(font)
-        self.info_title_label_2.setStyleSheet("#info_title_label {\n"
-"font-size: 14px\n"
-"}")
-        self.info_title_label_2.setIndent(4)
-        self.info_title_label_2.setObjectName("info_title_label_2")
-        self.verticalLayout.addWidget(self.info_title_label_2)
-        self.additionalInfo_groupBox = QtGui.QGroupBox(self.submit_page)
-        font = QtGui.QFont()
-        font.setPointSize(8)
-        self.additionalInfo_groupBox.setFont(font)
-        self.additionalInfo_groupBox.setTitle("")
-        self.additionalInfo_groupBox.setCheckable(False)
-        self.additionalInfo_groupBox.setObjectName("additionalInfo_groupBox")
-        self.verticalLayout_4 = QtGui.QVBoxLayout(self.additionalInfo_groupBox)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.additionalInfo_label = QtGui.QLabel(self.additionalInfo_groupBox)
-        self.additionalInfo_label.setObjectName("additionalInfo_label")
-        self.verticalLayout_4.addWidget(self.additionalInfo_label)
-        self.verticalLayout.addWidget(self.additionalInfo_groupBox)
         spacerItem4 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem4)
         self.horizontalLayout = QtGui.QHBoxLayout()
@@ -341,7 +287,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.central_stackedWidget)
 
         self.retranslateUi(Dialog)
-        self.central_stackedWidget.setCurrentIndex(1)
+        self.central_stackedWidget.setCurrentIndex(0)
         self.renders_stacked_widget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -349,13 +295,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Tank Dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.items_title_label.setText(QtGui.QApplication.translate("Dialog", "Choose Items to Submit:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("Dialog", "<html><head/><body><p><span style=\" font-style:italic;\">This render does not have any optional items to choose from.</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.info_title_label.setText(QtGui.QApplication.translate("Dialog", "Edit Information about your Submission:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("Dialog", "Priority:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Dialog", "Jobname:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Dialog", "End:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Dialog", "Start:", None, QtGui.QApplication.UnicodeUTF8))
-        self.info_title_label_2.setText(QtGui.QApplication.translate("Dialog", "Edit Additional Information about your Submission:", None, QtGui.QApplication.UnicodeUTF8))
-        self.additionalInfo_label.setText(QtGui.QApplication.translate("Dialog", "No information needed.", None, QtGui.QApplication.UnicodeUTF8))
+        self.info_title_label.setText(QtGui.QApplication.translate("Dialog", "Job Attributes:", None, QtGui.QApplication.UnicodeUTF8))
         self.cancel_btn.setText(QtGui.QApplication.translate("Dialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.submit_btn.setText(QtGui.QApplication.translate("Dialog", "Submit", None, QtGui.QApplication.UnicodeUTF8))
         self.title.setText(QtGui.QApplication.translate("Dialog", "Submitting...", None, QtGui.QApplication.UnicodeUTF8))
@@ -367,4 +307,4 @@ class Ui_Dialog(object):
         self.failure_details.setText(QtGui.QApplication.translate("Dialog", "Details...", None, QtGui.QApplication.UnicodeUTF8))
         self.failure_close_btn.setText(QtGui.QApplication.translate("Dialog", "Close", None, QtGui.QApplication.UnicodeUTF8))
 
-import resources_rc
+from . import resources_rc
