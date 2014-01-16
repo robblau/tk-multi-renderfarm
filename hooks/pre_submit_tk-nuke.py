@@ -22,8 +22,8 @@ class PreSubmitHook(Hook):
         attrs = [
             {'name': 'submit_file', 'value': str(scene_name), 'title': 'Submit File', 'hidden': True},
 
-            {'name': 'start', 'value': start, 'title': 'Start Frame'},
-            {'name': 'end', 'value': end, 'title': 'End Frame'},
+            {'name': 'start', 'value': int(start), 'title': 'Start Frame'},
+            {'name': 'end', 'value': int(end), 'title': 'End Frame'},
             {'name': 'by', 'value': 1, 'title': 'By Frame'},
 
             {'name': 'jobname', 'value': str(jobname), 'title': 'Job Name'},

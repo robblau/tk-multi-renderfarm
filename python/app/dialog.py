@@ -96,7 +96,7 @@ class AppDialog(QtGui.QWidget):
         row = 0
         for item in self.attributes:
             if not item.get('hidden', False):
-                label = QtGui.QLabel(item.get('title', item['name']))
+                label = QtGui.QLabel(item.get('title', item['name']) + ':')
                 self.ui.gridLayout.addWidget(label, row, 0, 1, 1)
 
                 widget = None
