@@ -22,7 +22,7 @@ class PreSubmitHook(Hook):
         attrs.append({'type': 'end', 'value': nuke.root()['last_frame'].value()})
         attrs.append({'type': 'by', 'value': 1})
 
-        jobname = '.'.join(os.path.basename(scene_name).split('.')[0:-1])
+        jobname = os.path.splitext(os.path.basename(scene_name))[0]
         attrs.append({'type': 'jobname', 'value': jobname})
         attrs.append({'type': 'queue', 'value': ['high', 'mid', 'low']})
         attrs.append({'type': 'submit', 'value': True})
