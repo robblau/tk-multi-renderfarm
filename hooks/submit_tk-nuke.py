@@ -11,24 +11,6 @@ class PostSubmitHook(Hook):
         app:        main class app
         outputs:    list of dicts with the following keys:
 
-                    jobname:    String
-                                Jobname from UI.
-
-                    priority:   Int
-                                Priority value from UI.
-
-                    start:      Int
-                                Start frame from UI.
-
-                    end:        Int
-                                End frame from UI.
-
-                    limit:      String
-                                Limit from UI.
-
-                    work_file:  String
-                                Path to work file.
-
                     output:     Dict
                                 Dictionary with all data from the outputs:
 
@@ -37,6 +19,10 @@ class PostSubmitHook(Hook):
 
                                 tank_type:    String
                                               Tank type specified in the environment.
+
+                    <attr1>:     String, Int or Bool
+
+                    <attr2>:     String, Int or Bool
         '''
 
         self.app = app
