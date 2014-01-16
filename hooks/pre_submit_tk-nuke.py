@@ -20,7 +20,7 @@ class PreSubmitHook(Hook):
         end = nuke.root()['last_frame'].value()
 
         attrs = [
-            {'name': 'work_file', 'value': str(scene_name), 'title': 'Work File'},
+            {'name': 'submit_file', 'value': str(scene_name), 'title': 'Submit File', 'hidden': True},
 
             {'name': 'start', 'value': start, 'title': 'Start Frame'},
             {'name': 'end', 'value': end, 'title': 'End Frame'},

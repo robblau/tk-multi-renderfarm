@@ -20,7 +20,7 @@ class PreSubmitHook(Hook):
         end = int(cmds.getAttr('defaultRenderGlobals.endFrame'))
 
         attrs = [
-            {'name': 'work_file', 'value': str(scene_name), 'title': 'Work File'},
+            {'name': 'submit_file', 'value': str(scene_name), 'title': '', 'hidden': True},
 
             {'name': 'start', 'value': start, 'title': 'Start Frame'},
             {'name': 'end', 'value': end, 'title': 'End Frame'},
