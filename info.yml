@@ -56,32 +56,11 @@ configuration:
                     description: The type that will be used when registering any published
                                  files for this output with Shotgun.
                                  If set to '' then this must be determined within the publish hook.
-                template_work:
-                    type: template
-                    fields: context, [name], [version], *
-                    allows_empty: True
-                    description: Template that will be used to extract the name and version from the current
-                                 file. Both name and version are optional.
-                template_job:
-                    type: template
-                    fields: context, [name], [version], *
-                    allows_empty: True
-                    description: The location where the job file will be stored
-                template_submit:
-                    type: template
-                    fields: context, [name], [version], *
-                    allows_empty: True
-                    description: The location where the submit item will be stored
-                template_temp:
-                    type: template
-                    fields: context, [name], [version], [layer]
-                    allows_empty: True
-                    description: The location where temp render files will be stored
-                template_render:
-                    type: template
-                    fields: context, [name], [version], [layer], [width], [height]
-                    allows_empty: True
-                    description: The location of the rendered image files
+                templates:
+                    type: dict
+                    description: Custom templates to use in the submit, for example
+                                 temp export paths, job paths and log file paths
+                    default_value: {}
 
         decription: Specify all other outputs that are supported.
                     All non-primary items returned from the scan scene hook must match

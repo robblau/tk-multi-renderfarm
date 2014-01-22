@@ -31,11 +31,10 @@ class PublishOutput(object):
         self._required = (fields.get("required", False) if required is None else required)
         self._selected = self._required or (fields.get("selected", True) if selected is None else selected)
 
-        self._template_work = app.get_template_by_name(self._raw_fields['template_work'])
-        self._template_job = app.get_template_by_name(self._raw_fields['template_job'])
-        self._template_submit = app.get_template_by_name(self._raw_fields['template_submit'])
-        self._template_temp = app.get_template_by_name(self._raw_fields['template_temp'])
-        self._template_render = app.get_template_by_name(self._raw_fields['template_render'])
+        self._templates = {}
+        templates = self._raw_fields['templates']
+        for k in templates:
+            self._templates[k] = app.get_template_by_name(templates[k])
 
     @property
     def name(self):
@@ -70,21 +69,5 @@ class PublishOutput(object):
         return self._required
 
     @property
-    def template_work(self):
-        return self._template_work
-
-    @property
-    def template_job(self):
-        return self._template_job
-
-    @property
-    def template_submit(self):
-        return self._template_submit
-
-    @property
-    def template_temp(self):
-        return self._template_temp
-
-    @property
-    def template_render(self):
-        return self._template_render
+    def templates(self):
+        return self._templates

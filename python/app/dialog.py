@@ -36,11 +36,7 @@ class AppDialog(QtGui.QWidget):
                 data['output'] = {}
                 data['output']['name'] = item._output.name
                 data['output']['tank_type'] = item._output.tank_type
-                data['output']['template_work'] = item._output.template_work
-                data['output']['template_job'] = item._output.template_job
-                data['output']['template_submit'] = item._output.template_submit
-                data['output']['template_temp'] = item._output.template_temp
-                data['output']['template_render'] = item._output.template_render
+                data['output']['templates'] = item._output.templates
 
                 for item in self.attributes:
                     if not item.get('hidden', False):
