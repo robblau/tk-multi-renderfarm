@@ -35,7 +35,7 @@ class PostSubmitHook(Hook):
             if output['output']['name'] == "maya_render":
                 try:
                     self.maya_render(output)
-                except Exception, e:
+                except Exception as e:
                     errors.append("Submit failed - %s" % e)
 
             # if there is anything to report then add to result
