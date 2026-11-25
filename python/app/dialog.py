@@ -21,10 +21,11 @@ class AppDialog(QtGui.QWidget):
             self.show_render_dlg()
             self._outputs = [PublishOutput(self._app, output) for output in self._app.get_setting("outputs")]
             self._populate_output_list()
-        except TankError, e:
+        except TankError as e:
             QtGui.QMessageBox.information(None, "Unable To Submit!", "%s" % e)
         except Exception as e:
-            print(e)
+            self._app.log_exception("Unable to initialize the Render Farm dialog")
+            QtGui.QMessageBox.critical(None, "Render Farm Error", "%s" % e)
 
     def submit_btn_released(self):
         self.data_outputs = []

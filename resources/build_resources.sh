@@ -11,7 +11,13 @@
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
 # The path to output all built .py files to:
-UI_PYTHON_PATH=../python/tk_multi_renderfarm/ui
+UI_PYTHON_PATH=../python/app/ui
+
+
+# The PySide tools to use. Override from the environment to match your Qt build,
+# e.g. UIC=pyside6-uic RCC=pyside6-rcc ./build_resources.sh
+UIC=${UIC:-pyside2-uic}
+RCC=${RCC:-pyside2-rcc}
 
 
 # Helper functions to build UI files
@@ -22,15 +28,16 @@ function build_qt {
     $1 $2 > $UI_PYTHON_PATH/$3.py
 
     # replace PySide imports with tank.platform.qt and remove line containing Created by date
-    sed -i "" -e "s/from PySide import/from tank.platform.qt import/g" -e "/# Created:/d" $UI_PYTHON_PATH/$3.py
+    # (PySide2/PySide6 are handled as well as the legacy PySide)
+    sed -i "" -e "s/from PySide[26]* import/from tank.platform.qt import/g" -e "/# Created:/d" $UI_PYTHON_PATH/$3.py
 }
 
 function build_ui {
-    build_qt "pyside-uic --from-imports" "$1.ui" "$1"
+    build_qt "$UIC --from-imports" "$1.ui" "$1"
 }
 
 function build_res {
-    build_qt "pyside-rcc" "$1.qrc" "$1_rc"
+    build_qt "$RCC" "$1.qrc" "$1_rc"
 }
 
 
