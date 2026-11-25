@@ -79,7 +79,7 @@ supported_engines: [tk-nuke, tk-maya]
 
 # Required minimum versions for this item to run
 requires_shotgun_version:
-requires_core_version: "v0.12.6"
+requires_core_version: "v0.19.1"
 requires_engine_version:
 
 # the frameworks required to run this app
