@@ -49,7 +49,7 @@ class Ui_OutputItem(object):
         QtCore.QMetaObject.connectSlotsByName(OutputItem)
 
     def retranslateUi(self, OutputItem):
-        OutputItem.setWindowTitle(QtGui.QApplication.translate("OutputItem", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.details_label.setText(QtGui.QApplication.translate("OutputItem", "<b>Output Name</b><br>Description...<br>the third line...", None, QtGui.QApplication.UnicodeUTF8))
+        OutputItem.setWindowTitle(QtGui.QApplication.translate("OutputItem", "Form", None))
+        self.details_label.setText(QtGui.QApplication.translate("OutputItem", "<b>Output Name</b><br>Description...<br>the third line...", None))
 
 from . import resources_rc
